@@ -19,8 +19,8 @@
 
 
 <!-- hero section starts -->
-<section class="home" id="home">
-  <div id="tsparticles-bg" class="tsparticles-fullscreen"></div>
+<section class="home" id="home" [particleBg]="particlesOptions">
+  
   <div class="content">
     <h2>Hi There,<br /> I'm Sahil <span>Malik</span></h2>
     <p>i am into <span class="typing-text"></span></p>
@@ -42,7 +42,7 @@
     </div>
   </div>
   <div class="image">
-    <img draggable="false" class="tilt" src="hero2.avif" alt="">
+    <img draggable="false" class="tilt" src="hero.avif" alt="">
   </div>
 </section>
 <!-- hero section ends -->
@@ -55,7 +55,7 @@
   <div class="row">
 
     <div class="image">
-      <img draggable="false" class="tilt" src="imgg2.avif" alt="">
+      <img draggable="false" class="tilt" src="about.avif" alt="">
     </div>
     <div class="content">
       <h3>I'm Sahil Malik</h3>
@@ -243,7 +243,7 @@
   <div class="container">
     <div class="content">
       <div class="image-box">
-        <img draggable="false" src="contact1.png" alt="">
+        <img draggable="false" src="contact.png" alt="">
       </div>
       <form [formGroup]="contactForm" (ngSubmit)="onSubmitContactForm()" novalidate id="contact-form">
         <div class="form-group">
@@ -359,6 +359,6 @@
 
 
 <!-- scroll top btn -->
-<a aria-label="ScrollTop" [class.active]="showScrollTop()" (click)="scrollToTop()" class="fas fa-angle-up"
-  id="scroll-top"></a>
+<!-- <a aria-label="ScrollTop" [class.active]="showScrollTop()" (click)="scrollToTop()" class="fas fa-angle-up"
+  id="scroll-top"></a> -->
 <!-- scroll back to top -->

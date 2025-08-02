@@ -5,10 +5,9 @@ import VanillaTilt from 'vanilla-tilt';
 import ScrollReveal from 'scrollreveal';
 import { NgClass } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ParticleBgDirective } from './particle-bg';
 
-const skills: { name: string; icon: string }[] = [
-
-  {
+const skills: { name: string; icon: string }[] = [{
     "name": "Angular",
     "icon": "https://img.icons8.com/fluency/48/000000/angularjs.png"
   },
@@ -105,7 +104,7 @@ const projects: { name: string; desc: string; image: string; category: string; l
   }];
 @Component({
   selector: 'app-root',
-  imports: [NgClass, FormsModule, ReactiveFormsModule],
+  imports: [NgClass, FormsModule, ReactiveFormsModule, ParticleBgDirective],
   templateUrl: './app.html',
   styles: `
   `,
@@ -125,19 +124,16 @@ export class App {
   private typedInstance?: Typed;
   private effectRef?: { destroy: () => void };
   particlesOptions = {
-    fpsLimit: 60,
-    particles: {
-      color: {
-        value: "#000"
-      },
-      links: {
-        enable: true,
-        color: "#000"
-      },
-      move: {
-        enable: true
-      }
-    }
+    particleCount: 80,
+    maxDistance: 150,
+    bgColor: 'initial',
+    dotColor: '0, 0, 0', // using gray for visibility; change to '0,0,0' if strict
+    linkOpacity: 0.4,
+    dotOpacity: 0.45,
+    hoverDistance: 200,
+    repulseStrength: 0.2,
+    pushQuantity: 4,
+    speed: 1.5
   };
   contactForm: ReturnType<FormBuilder['group']>;
   isSubmitting = false;
@@ -215,11 +211,15 @@ export class App {
   private initTyped() {
     this.typedInstance = new Typed('.typing-text', {
       strings: [
-        'Full stack development',
-        'Mobile development',
-        'Angular development',
-        'Web development',
-        'Artificial Intelligence',
+        'Full Stack Development',
+        'Mobile App Development',
+        'Artificial Intelligence Solutions',
+        'Freelance Software Projects',
+        'Web Design & Development',
+        'Technical Consulting & Strategy',
+        'Server & Cloud Infrastructure Management',
+        'UI/UX Design & Prototyping',
+        'Custom Software Development',
       ],
       loop: true,
       typeSpeed: 50,
