@@ -27,7 +27,7 @@
           },
           "configurations": {
             "production": {
-              "outputPath": "docs",
+              "outputPath": "dist",
               "baseHref": "/",
               "budgets": [
                 {
