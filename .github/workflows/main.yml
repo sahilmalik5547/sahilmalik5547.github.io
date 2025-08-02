@@ -2,11 +2,12 @@ name: Build & Publish to sahilmalik5547.github.io
 
 on:
   push:
-    branches: [ "main" ]  # or whatever branch you deploy from
+    branches: [ "main" ]  # adjust if you deploy from another branch
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout private repo
         uses: actions/checkout@v4
@@ -16,41 +17,32 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"  # adjust if you target a different Node version
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build Angular app
-        run: |
-          # adjust if your project uses a different build script or app name
-          ng build --configuration=production --base-href=/  # or set base-href to / if root
+        run: npm run build --if-present
 
-      - name: Prepare public repo artifact
+      - name: Deploy dist/browser to public repo
+        env:
+          PUBLIC_REPO: https://x-access-token:${{ secrets.PUBLIC_PAT }}@github.com/sahilmalik5547/sahilmalik5547.github.io.git
         run: |
-          # Clean and copy built site into a temporary dir
-          rm -rf public-deploy
-          mkdir public-deploy
-          # Assuming your built output is in dist/<your-app-name>
-          cp -r dist/* public-deploy/
-          cd public-deploy
-          # Ensure it's inside docs/ for GitHub Pages
-          mkdir -p docs
-          cp -r * docs/
-          # Initialize git for the public repo content
+          # ensure build output exists
+          if [ ! -d dist/browser ]; then
+            echo "Build output dist/browser not found" >&2
+            exit 1
+          fi
+
+          # Prepare git repo from dist/browser
+          cd dist/browser
           git init
           git checkout -b main
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs
+          git add .
           git commit -m "Deploy portfolio from private repo @$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-
-      - name: Push to public repo
-        env:
-          PUBLIC_REPO: https://x-access-token:${{ secrets.PUBLIC_PAT }}@github.com/sahilmalik5547/sahilmalik5547.github.io.git
-        run: |
-          cd public-deploy
           git remote add origin "$PUBLIC_REPO"
-          # Force push so the public repo's main branch reflects this build
           git push --force origin main
